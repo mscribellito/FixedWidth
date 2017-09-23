@@ -1,47 +1,44 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
+using FixedWidth;
+using FixedWidthTests.Models;
+using FixedWidthTests.Expectations;
 
-namespace FixedWidth.Tests
+namespace FixedWidthTests.Tests
 {
 
-    [TestClass()]
-    public class TextSerializerTests
+    [TestClass]
+    public class TextSerializerTests : BaseTest<FixedWidthModel>
     {
 
-        public const string FixedWidth = "CXXXX62790003826.73         MY CHECKING 5";
-
-        public TextSerializer<AccountClass> serializer;
-
-        public AccountClass deserialized;
-
-        public string serialized;
-
-        public TextSerializerTests()
+        public TextSerializerTests() : base("FixedWidth.txt")
         {
 
-            serializer = new TextSerializer<AccountClass>();
-
-            deserialized = serializer.Deserialize(FixedWidth);
-            serialized = serializer.Serialize(deserialized);
+            Serializer = new TextSerializer<FixedWidthModel>();
+            Expectations = new FixedWidthExpectations();
+            Comparer = new FixedWidthComparer();
 
         }
 
-        [TestMethod()]
-        public void DeserializeTest()
+        private class FixedWidthComparer : IComparer
         {
 
-            Assert.AreEqual('C', deserialized.Type);
-            Assert.AreEqual("6279", deserialized.Number);
-            Assert.AreEqual((decimal)3826.73, deserialized.Balance);
-            Assert.AreEqual("MY CHECKING", deserialized.Name);
-            Assert.AreEqual(5, deserialized.Status);
+            public int Compare(object x, object y)
+            {
 
-        }
+                var left = (FixedWidthModel)x;
+                var right = (FixedWidthModel)y;
 
-        [TestMethod()]
-        public void SerializeTest()
-        {
+                bool equal = left.Id == right.Id &&
+                    left.Make == right.Make &&
+                    left.Model == right.Model &&
+                    left.Year == right.Year &&
+                    left.Mileage == right.Mileage &&
+                    left.Price == right.Price;
 
-            Assert.AreEqual(FixedWidth, serialized);
+                return equal ? 0 : 1;
+
+            }
 
         }
 
