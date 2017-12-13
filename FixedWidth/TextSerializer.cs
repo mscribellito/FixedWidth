@@ -13,7 +13,7 @@ namespace FixedWidth
     public class TextSerializer<T> where T : new()
     {
 
-        public bool ZeroIndexed { get; set; } = false;
+        public bool ZeroIndexed { get; set; }
 
         protected readonly Type type;
 
@@ -24,6 +24,8 @@ namespace FixedWidth
         /// </summary>
         public TextSerializer()
         {
+
+            ZeroIndexed = false;
 
             type = typeof(T);
             fields = new SortedDictionary<int, TextField>();
@@ -103,7 +105,15 @@ namespace FixedWidth
                 object value = null;
                 if (field.Formatter != null)
                 {
-                    value = field.Formatter.Deserialize(temp);
+                    try
+                    {
+                        value = field.Formatter.Deserialize(temp);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception(string.Format("Field: Name={0}, Position={1}, Size={2}",
+                            field.Name, field.Position, field.Size), e);
+                    }
                 }
                 else
                 {
