@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formatters\BooleanFormatter.cs" />
     <Compile Include="TextAlignment.cs" />
     <Compile Include="ITextFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

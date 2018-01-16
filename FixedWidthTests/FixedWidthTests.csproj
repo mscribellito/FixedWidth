@@ -56,8 +56,11 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BuiltInTypeTests.cs" />
+    <Compile Include="CompositeTests.cs" />
+    <Compile Include="FormatterTypeTests.cs" />
+    <Compile Include="InstantiateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextSerializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
