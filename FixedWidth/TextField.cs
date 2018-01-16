@@ -5,29 +5,43 @@ namespace FixedWidth
 {
 
     /// <summary>
-    /// The text field attribute
+    /// The text field attribute.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
+        AllowMultiple = false)]
     public class TextField : Attribute
     {
 
         /// <summary>
-        /// Position of text field
+        /// Name of text field.
+        /// </summary>
+        public string Name { get; internal set; }
+
+        /// <summary>
+        /// Position of text field.
         /// </summary>
         public int Position { get; set; }
 
         /// <summary>
-        /// Size of text field
+        /// Size of text field.
         /// </summary>
         public int Size { get; set; }
 
         /// <summary>
-        /// Character used to pad text field
+        /// Character used to pad text field.
         /// </summary>
         public char Padding { get; set; }
 
+        /// <summary>
+        /// Text alignment of field.
+        /// </summary>
+        public TextAlignment Alignment { get; set; }
+
         private Type formatterType;
 
+        /// <summary>
+        /// Type to be utilized for deserialze/serialize.
+        /// </summary>
         public Type FormatterType
         {
             get
@@ -41,14 +55,12 @@ namespace FixedWidth
             }
         }
 
-        internal string Name { get; set; }
-
         internal MemberInfo Member { get; set; }
 
         internal ITextFormatter Formatter { get; private set; }
 
         /// <summary>
-        /// Define text field
+        /// Define text field.
         /// </summary>
         /// <param name="position">Position of text field</param>
         /// <param name="size">Size of text field</param>
@@ -62,7 +74,7 @@ namespace FixedWidth
         }
 
         /// <summary>
-        /// Define text field
+        /// Define text field.
         /// </summary>
         /// <param name="position">Position of text field</param>
         /// <param name="size">Size of text field</param>
@@ -74,6 +86,10 @@ namespace FixedWidth
 
         }
 
+        /// <summary>
+        /// Return type of member
+        /// </summary>
+        /// <returns>type of member</returns>
         internal Type GetMemberType()
         {
 

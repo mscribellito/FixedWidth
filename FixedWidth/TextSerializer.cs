@@ -7,17 +7,25 @@ namespace FixedWidth
 {
 
     /// <summary>
-    /// Serialize and deserialize fixed width text
+    /// Deserialize and serialize fixed width text.
     /// </summary>
     /// <typeparam name="T">The type of object</typeparam>
     public class TextSerializer<T> where T : new()
     {
 
+        /// <summary>
+        /// Specifies if field positions are zero based or not.
+        /// </summary>
         public bool ZeroIndexed { get; set; }
 
-        protected readonly Type type;
+        public IEnumerable<TextField> Fields
+        {
+            get { return fields.Values; }
+        }
 
-        protected readonly SortedDictionary<int, TextField> fields;
+        private readonly Type type;
+
+        private readonly SortedDictionary<int, TextField> fields;
 
         /// <summary>
         /// Serialize and deserialize fixed width text
@@ -35,10 +43,12 @@ namespace FixedWidth
 
         }
 
+        /// <summary>
+        /// Check that TextSerializable attribute is attached to T.
+        /// </summary>
         private void CheckForAttribute()
         {
 
-            // Check that TextSerializable attribute is attached to T
             if (type.GetCustomAttributes(typeof(TextSerializable), false).Length == 0)
             {
                 throw new Exception(type + " must have a " + typeof(TextSerializable) + " attribute");
@@ -46,6 +56,9 @@ namespace FixedWidth
 
         }
 
+        /// <summary>
+        /// Analyze class members
+        /// </summary>
         private void AnalyzeMembers()
         {
 
@@ -80,7 +93,7 @@ namespace FixedWidth
         }
 
         /// <summary>
-        /// Creates T object from fixed width text
+        /// Creates T object from fixed width text.
         /// </summary>
         /// <param name="text">string to deserialize</param>
         /// <returns>deserialized object</returns>
@@ -129,14 +142,14 @@ namespace FixedWidth
         }
 
         /// <summary>
-        /// Creates fixed width text from T object
+        /// Creates fixed width text from T object.
         /// </summary>
         /// <param name="record">object to serialize</param>
         /// <returns>serialized string</returns>
         public string Serialize(T record)
         {
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder serialized = new StringBuilder();
             object temp = null;
 
             foreach (TextField field in fields.Values)
@@ -160,15 +173,22 @@ namespace FixedWidth
                     value = temp.ToString();
                 }
                 int paddingCount = field.Size - value.Length;
-                if (paddingCount > 0)
+
+                if (paddingCount > 0 && field.Alignment == TextAlignment.Right)
                 {
-                    sb.Append(field.Padding, paddingCount);
+                    serialized.Append(field.Padding, paddingCount);
                 }
-                sb.Append(value);
+
+                serialized.Append(value);
+
+                if (paddingCount > 0 && field.Alignment == TextAlignment.Left)
+                {
+                    serialized.Append(field.Padding, paddingCount);
+                }
 
             }
 
-            return sb.ToString();
+            return serialized.ToString();
 
         }
 

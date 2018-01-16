@@ -1,44 +1,111 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections;
 using FixedWidth;
-using FixedWidthTests.Models;
-using FixedWidthTests.Expectations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Globalization;
 
-namespace FixedWidthTests.Tests
+namespace FixedWidth.Tests
 {
 
-    [TestClass]
-    public class TextSerializerTests : BaseTest<FixedWidthModel>
+    [TestClass()]
+    public class TextSerializerTests
     {
 
-        public TextSerializerTests() : base("FixedWidth.txt")
+        [TextSerializable]
+        public class SimpleString
+        {
+            [TextField(1, 10)]
+            public string Value { get; set; }
+        }
+
+        [TextSerializable]
+        public class SimpleInt
+        {
+            [TextField(1, 10)]
+            public int Value { get; set; }
+        }
+
+        [TextSerializable]
+        public class SimpleDecimal
+        {
+            [TextField(1, 10)]
+            public decimal Value { get; set; }
+        }
+
+        [TextSerializable]
+        public class SimpleDateTime
+        {
+            [TextField(1, 20,
+                Alignment = TextAlignment.Right,
+                FormatterType = typeof(DateTimeFormatter))]
+            public DateTime Value { get; set; }
+        }
+
+        public class DateTimeFormatter : ITextFormatter
         {
 
-            Serializer = new TextSerializer<FixedWidthModel>();
-            Expectations = new FixedWidthExpectations();
-            Comparer = new FixedWidthComparer();
+            public const string Format = "yyyyMMdd HH:mm:ss";
+
+            public object Deserialize(string value)
+            {
+                return DateTime.ParseExact(value, Format, null);
+            }
+
+            public string Serialize(object value)
+            {
+                return ((DateTime)value).ToString(Format);
+            }
+        }
+
+        [TestMethod()]
+        public void StringTest()
+        {
+
+            var serializer = new TextSerializer<SimpleString>();
+            var deserialized = serializer.Deserialize("asdf      ");
+
+            Assert.AreEqual("asdf", deserialized.Value);
 
         }
 
-        private class FixedWidthComparer : IComparer
+        [TestMethod()]
+        public void IntTest()
         {
 
-            public int Compare(object x, object y)
-            {
+            var serializer = new TextSerializer<SimpleInt>();
+            var deserialized = serializer.Deserialize("1234      ");
 
-                var left = (FixedWidthModel)x;
-                var right = (FixedWidthModel)y;
+            Assert.AreEqual(1234, deserialized.Value);
 
-                bool equal = left.Id == right.Id &&
-                    left.Make == right.Make &&
-                    left.Model == right.Model &&
-                    left.Year == right.Year &&
-                    left.Mileage == right.Mileage &&
-                    left.Price == right.Price;
+        }
 
-                return equal ? 0 : 1;
+        [TestMethod()]
+        public void DecimalTest()
+        {
 
-            }
+            var serializer = new TextSerializer<SimpleDecimal>();
+            var deserialized = serializer.Deserialize("12.3      ");
+
+            Assert.AreEqual(12.3m, deserialized.Value);
+
+        }
+
+        [TestMethod()]
+        public void DateTimeTest()
+        {
+
+            string original = "   20141017 18:30:00";
+
+            var serializer = new TextSerializer<SimpleDateTime>();
+
+            var deserialized = serializer.Deserialize(original);
+            Assert.AreEqual(new DateTime(2014, 10, 17, 18, 30, 0), deserialized.Value);
+
+            var serialized = serializer.Serialize(deserialized);
+            Assert.AreEqual(original, serialized);
 
         }
 
