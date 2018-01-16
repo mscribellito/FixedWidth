@@ -28,7 +28,7 @@ namespace FixedWidth
         private readonly SortedDictionary<int, TextField> fields;
 
         /// <summary>
-        /// Serialize and deserialize fixed width text
+        /// Instantiates a new TextSerializer.
         /// </summary>
         public TextSerializer()
         {
@@ -57,7 +57,7 @@ namespace FixedWidth
         }
 
         /// <summary>
-        /// Analyze class members
+        /// Analyze class members for text fields.
         /// </summary>
         private void AnalyzeMembers()
         {
@@ -106,6 +106,9 @@ namespace FixedWidth
             foreach (TextField field in fields.Values)
             {
 
+                object value = null;
+
+                // Get field text
                 int position = ZeroIndexed == true ? field.Position : field.Position - 1;
                 try
                 {
@@ -115,7 +118,8 @@ namespace FixedWidth
                 {
                     throw new Exception(string.Format("Position={0}, Size={1}", position, field.Size), e);
                 }
-                object value = null;
+
+                // String to object
                 if (field.Formatter != null)
                 {
                     try
@@ -132,6 +136,8 @@ namespace FixedWidth
                 {
                     value = Convert.ChangeType(temp, field.GetMemberType());
                 }
+
+                // Set object value
                 var property = type.GetProperty(field.Name);
                 property.SetValue(deserialized, value, null);
 
@@ -155,6 +161,9 @@ namespace FixedWidth
             foreach (TextField field in fields.Values)
             {
 
+                string value = null;
+
+                // Get member value
                 if (field.Member is FieldInfo)
                 {
                     temp = ((FieldInfo)field.Member).GetValue(record);
@@ -163,7 +172,8 @@ namespace FixedWidth
                 {
                     temp = ((PropertyInfo)field.Member).GetValue(record, null);
                 }
-                string value = null;
+
+                // Object to string
                 if (field.Formatter != null)
                 {
                     value = field.Formatter.Serialize(temp);
@@ -172,15 +182,14 @@ namespace FixedWidth
                 {
                     value = temp.ToString();
                 }
-                int paddingCount = field.Size - value.Length;
 
+                // Add to string, optionally pad
+                int paddingCount = field.Size - value.Length;
                 if (paddingCount > 0 && field.Alignment == TextAlignment.Right)
                 {
                     serialized.Append(field.Padding, paddingCount);
                 }
-
                 serialized.Append(value);
-
                 if (paddingCount > 0 && field.Alignment == TextAlignment.Left)
                 {
                     serialized.Append(field.Padding, paddingCount);
