@@ -2,7 +2,7 @@
 {
 
     /// <summary>
-    /// Defines constants for left & right alignment of text.
+    /// Defines constants for left and right alignment of text.
     /// </summary>
     public enum TextAlignment
     {
