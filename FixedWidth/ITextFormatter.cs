@@ -2,24 +2,24 @@ namespace FixedWidth
 {
 
     /// <summary>
-    /// Interface for deserializing and serializing.
+    /// Interface for deserializing/serializing a custom format.
     /// </summary>
     public interface ITextFormatter
     {
 
         /// <summary>
-        /// Deserialize a string.
+        /// Deserialize a string using custom rules.
         /// </summary>
-        /// <param name="value">string to deserialize</param>
+        /// <param name="str">string to deserialize</param>
         /// <returns>deserialized object</returns>
-        object Deserialize(string value);
+        object Deserialize(string str);
 
         /// <summary>
-        /// Serialize an object.
+        /// Serialize an object using custom rules.
         /// </summary>
-        /// <param name="value">object to serialize</param>
+        /// <param name="obj">object to serialize</param>
         /// <returns>serialized string</returns>
-        string Serialize(object value);
+        string Serialize(object obj);
 
     }
 

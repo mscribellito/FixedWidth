@@ -7,25 +7,20 @@ namespace FixedWidth
 {
 
     /// <summary>
-    /// Deserialize and serialize fixed width text.
+    /// Class to deserialize and serialize fixed width text.
     /// </summary>
     /// <typeparam name="T">The type of object</typeparam>
     public class TextSerializer<T> where T : new()
     {
 
+        private readonly Type type;
+
+        private readonly SortedDictionary<int, TextField> fields;
+
         /// <summary>
         /// Specifies if field positions are zero based or not.
         /// </summary>
         public bool ZeroIndexed { get; set; }
-
-        public IEnumerable<TextField> Fields
-        {
-            get { return fields.Values; }
-        }
-
-        private readonly Type type;
-
-        private readonly SortedDictionary<int, TextField> fields;
 
         /// <summary>
         /// Instantiates a new TextSerializer.
@@ -33,10 +28,10 @@ namespace FixedWidth
         public TextSerializer()
         {
 
-            ZeroIndexed = false;
-
             type = typeof(T);
             fields = new SortedDictionary<int, TextField>();
+
+            ZeroIndexed = false;
 
             CheckForAttribute();
             AnalyzeMembers();
@@ -49,9 +44,10 @@ namespace FixedWidth
         private void CheckForAttribute()
         {
 
-            if (type.GetCustomAttributes(typeof(TextSerializable), false).Length == 0)
+            if (type.GetCustomAttribute(typeof(TextSerializable), false) == null)
             {
-                throw new Exception(type + " must have a " + typeof(TextSerializable) + " attribute");
+                throw new Exception(string.Format("{0} must have a {1} attribute",
+                    type, typeof(TextSerializable)));
             }
 
         }
@@ -62,31 +58,29 @@ namespace FixedWidth
         private void AnalyzeMembers()
         {
 
-            // Get members of class
+            // Get public fields and properties of T
             MemberInfo[] members = type.GetMembers(BindingFlags.Instance | BindingFlags.Public |
                 BindingFlags.GetField | BindingFlags.GetProperty);
             foreach (MemberInfo member in members)
             {
 
+                // Check that TextField attribute is attached
                 Attribute attribute = member.GetCustomAttribute(typeof(TextField), false);
-                if (attribute != null)
+                if (attribute == null)
                 {
-                    if (!(member is FieldInfo || member is PropertyInfo))
-                    {
-                        throw new Exception("Invalid member type");
-                    }
-
-                    // Check that TextField attribute is attached
-                    TextField field = (TextField)attribute;
-
-                    if (string.IsNullOrEmpty(field.Name))
-                    {
-                        field.Name = member.Name;
-                    }
-                    field.Member = member;
-
-                    fields.Add(field.Position, field);
+                    continue;
                 }
+
+                TextField field = (TextField)attribute;
+
+                // Override name if provided
+                if (string.IsNullOrEmpty(field.Name))
+                {
+                    field.Name = member.Name;
+                }
+
+                field.Member = member;
+                fields.Add(field.Position, field);
 
             }
 
