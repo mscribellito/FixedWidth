@@ -41,7 +41,7 @@ Pass `Deserialize()` the serialized string.
 ```csharp
 var deserialized = serializer.Deserialize("C0001Acme Corp 12.340");
 ```
-Object: {Type = "C", Number = "1", Name = "Acme Corp", Balance = "12.34", Locked = "False"}
+*Object: {Type = "C", Number = "1", Name = "Acme Corp", Balance = "12.34", Locked = "False"}*
 
 ### Serialize Object
 Pass `Serialize()` the deserialized object.
@@ -55,7 +55,7 @@ var serialized = serializer.Serialize(new Account()
 	Locked = false
 });
 ```
-String: "C0001Acme Corp 12.340"
+*String: "C0001Acme Corp 12.340"*
 
 ## License
 Released under a MIT license - https://opensource.org/licenses/MIT
