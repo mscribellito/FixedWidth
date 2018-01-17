@@ -8,8 +8,10 @@
 * Specify field padding and text alignment
 
 ## Usage
+
+### Define Format
 ```csharp
-public class Account : TextRecord
+public class Account
 {
 	[TextField(1, 1)]
 	public char Type { get; set; }
@@ -24,14 +26,21 @@ public class Account : TextRecord
 		FormatterType = typeof(BooleanFormatter))]
 	public bool Locked { get; set; }
 }
+```
 
-// ...
-
+### Create Serializer
+```csharp
 var serializer = new TextSerializer<Account>();
+```
 
+### Deserialize String
+```csharp
 var deserialized = serializer.Deserialize("C0001Acme Corp 12.340");
-// {Type = "C", Number = "1", Name = "Acme Corp", Balance = "12.34", Locked = "False"}
+```
+Object: {Type = "C", Number = "1", Name = "Acme Corp", Balance = "12.34", Locked = "False"}
 
+### Serialize Object
+```csharp
 var serialized = serializer.Serialize(new Account()
 {
 	Type = 'C',
@@ -40,8 +49,8 @@ var serialized = serializer.Serialize(new Account()
 	Balance = 12.34,
 	Locked = false
 });
-// "C0001Acme Corp 12.340"
 ```
+String: "C0001Acme Corp 12.340"
 
 ## License
 Released under a MIT license - https://opensource.org/licenses/MIT
