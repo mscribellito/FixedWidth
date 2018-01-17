@@ -25,6 +25,8 @@ public class Account : TextRecord
 	public bool Locked { get; set; }
 }
 
+// ...
+
 var serializer = new TextSerializer<Account>();
 
 var deserialized = serializer.Deserialize("C0001Acme Corp 12.340");
