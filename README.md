@@ -38,7 +38,7 @@ var serialized = serializer.Serialize(new Account()
 	Balance = 12.34,
 	Locked = false
 });
-// "C0001Acme Corp 12.341"
+// "C0001Acme Corp 12.340"
 ```
 
 ## License
