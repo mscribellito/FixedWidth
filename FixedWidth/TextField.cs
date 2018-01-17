@@ -16,7 +16,7 @@ namespace FixedWidth
         /// <summary>
         /// Name of text field.
         /// </summary>
-        public string Name { get; internal set; }
+        internal string Name { get; set; }
 
         /// <summary>
         /// Position of text field.

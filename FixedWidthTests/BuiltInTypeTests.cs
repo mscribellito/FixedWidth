@@ -9,47 +9,47 @@ namespace FixedWidth.Tests
     {
 
         [TextSerializable]
-        public class SimpleChar
+        public class CharClass
         {
             [TextField(1, 1)]
             public char Value { get; set; }
         }
 
         [TextSerializable]
-        public class SimpleString
+        public class StringClass
         {
             [TextField(1, 10)]
             public string Value { get; set; }
         }
 
         [TextSerializable]
-        public class SimpleInt
+        public class IntClass
         {
             [TextField(1, 10)]
             public int Value { get; set; }
         }
 
         [TextSerializable]
-        public class SimpleDouble
+        public class DoubleClass
         {
             [TextField(1, 10)]
             public double Value { get; set; }
         }
 
         [TextSerializable]
-        public class SimpleBool
+        public class BoolClass
         {
             [TextField(1, 1, FormatterType = typeof(BooleanFormatter))]
             public bool Value { get; set; }
         }
 
         [TestMethod()]
-        public void Char_Success()
+        public void CharClass_Success()
         {
 
             string str = "a";
 
-            var serializer = new TextSerializer<SimpleChar>();
+            var serializer = new TextSerializer<CharClass>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual('a', deserialized.Value);
@@ -58,12 +58,12 @@ namespace FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void String_Success()
+        public void StringClass_Success()
         {
 
             string str = "asdf      ";
 
-            var serializer = new TextSerializer<SimpleString>();
+            var serializer = new TextSerializer<StringClass>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual("asdf", deserialized.Value);
@@ -72,12 +72,12 @@ namespace FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void Int_Success()
+        public void IntClass_Success()
         {
 
             string str = "1234      ";
 
-            var serializer = new TextSerializer<SimpleInt>();
+            var serializer = new TextSerializer<IntClass>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(1234, deserialized.Value);
@@ -86,12 +86,12 @@ namespace FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void Double_Success()
+        public void DoubleClass_Success()
         {
 
             string str = "12.3      ";
 
-            var serializer = new TextSerializer<SimpleDouble>();
+            var serializer = new TextSerializer<DoubleClass>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(12.3, deserialized.Value);
@@ -100,12 +100,12 @@ namespace FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void Bool_Success()
+        public void BoolClass_Success()
         {
 
             string str = "1";
 
-            var serializer = new TextSerializer<SimpleBool>();
+            var serializer = new TextSerializer<BoolClass>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(true, deserialized.Value);

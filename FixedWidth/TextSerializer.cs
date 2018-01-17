@@ -131,13 +131,26 @@ namespace FixedWidth
                     value = Convert.ChangeType(temp, field.GetMemberType());
                 }
 
-                // Set object value
                 var property = type.GetProperty(field.Name);
                 property.SetValue(deserialized, value, null);
 
             }
 
             return deserialized;
+
+        }
+
+        private static void Assign<Z>(Z obj, object value, MemberInfo member)
+        {
+
+            if (member is FieldInfo)
+            {
+                ((FieldInfo)member).SetValue(obj, value);
+            }
+            else if (member is PropertyInfo)
+            {
+                ((PropertyInfo)member).SetValue(obj, value);
+            }
 
         }
 
