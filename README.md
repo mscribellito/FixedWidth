@@ -10,7 +10,9 @@
 ## Usage
 
 ### Define Format
+Add `TextSerializable` attribute to class and `TextField` attribute to each field/property you want to serialize.
 ```csharp
+[TextSerializable]
 public class Account
 {
 	[TextField(1, 1)]
@@ -29,17 +31,20 @@ public class Account
 ```
 
 ### Create Serializer
+Create new `TextSerializer` and use class as generic type.
 ```csharp
 var serializer = new TextSerializer<Account>();
 ```
 
 ### Deserialize String
+Pass `Deserialize()` the serialized string.
 ```csharp
 var deserialized = serializer.Deserialize("C0001Acme Corp 12.340");
 ```
 Object: {Type = "C", Number = "1", Name = "Acme Corp", Balance = "12.34", Locked = "False"}
 
 ### Serialize Object
+Pass `Serialize()` the deserialized object.
 ```csharp
 var serialized = serializer.Serialize(new Account()
 {
