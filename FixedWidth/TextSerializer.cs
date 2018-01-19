@@ -140,20 +140,6 @@ namespace FixedWidth
 
         }
 
-        private static void Assign<Z>(Z obj, object value, MemberInfo member)
-        {
-
-            if (member is FieldInfo)
-            {
-                ((FieldInfo)member).SetValue(obj, value);
-            }
-            else if (member is PropertyInfo)
-            {
-                ((PropertyInfo)member).SetValue(obj, value);
-            }
-
-        }
-
         /// <summary>
         /// Creates fixed width text from T object.
         /// </summary>
