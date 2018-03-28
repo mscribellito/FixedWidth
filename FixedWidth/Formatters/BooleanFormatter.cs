@@ -9,7 +9,7 @@ namespace FixedWidth.Formatters
         public object Deserialize(string str)
         {
 
-            if (int.TryParse(str, out int value))
+            if (Int32.TryParse(str, out int value))
             {
                 return value == 1 ? true : false;
             }
