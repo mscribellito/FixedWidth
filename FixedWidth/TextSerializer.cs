@@ -17,6 +17,9 @@ namespace FixedWidth
 
         private readonly SortedDictionary<int, TextField> fields;
 
+        private string currentString;
+        private T currentObject;
+
         /// <summary>
         /// Specifies if field positions are zero based or not.
         /// </summary>
@@ -85,6 +88,52 @@ namespace FixedWidth
             }
 
         }
+        
+        // D E S E R I A L I Z E
+
+        /// <summary>
+        /// Get T object from string
+        /// </summary>
+        /// <param name="field">text field</param>
+        /// <returns>the T object</returns>
+        private object GetObject(TextField field)
+        {
+
+            string temp = string.Empty;
+            object value = null;
+
+            // Get field text
+            int position = ZeroIndexed == true ? field.Position : field.Position - 1;
+            try
+            {
+                temp = currentString.Substring(position, field.Size).Trim(field.Padding);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                throw new Exception(string.Format("Position={0}, Size={1}", position, field.Size), e);
+            }
+
+            // String to object
+            if (field.Formatter != null)
+            {
+                try
+                {
+                    value = field.Formatter.Deserialize(temp);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(string.Format("Field: Name={0}, Position={1}, Size={2}",
+                        field.Name, field.Position, field.Size), e);
+                }
+            }
+            else
+            {
+                value = Convert.ChangeType(temp, field.GetMemberType());
+            }
+
+            return value;
+
+        }
 
         /// <summary>
         /// Creates T object from fixed width text.
@@ -94,44 +143,14 @@ namespace FixedWidth
         public T Deserialize(string text)
         {
 
+            currentString = text;
             T deserialized = new T();
-            string temp;
 
             foreach (TextField field in fields.Values)
             {
 
-                object value = null;
-
-                // Get field text
-                int position = ZeroIndexed == true ? field.Position : field.Position - 1;
-                try
-                {
-                    temp = text.Substring(position, field.Size).Trim(field.Padding);
-                }
-                catch (ArgumentOutOfRangeException e)
-                {
-                    throw new Exception(string.Format("Position={0}, Size={1}", position, field.Size), e);
-                }
-
-                // String to object
-                if (field.Formatter != null)
-                {
-                    try
-                    {
-                        value = field.Formatter.Deserialize(temp);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception(string.Format("Field: Name={0}, Position={1}, Size={2}",
-                            field.Name, field.Position, field.Size), e);
-                    }
-                }
-                else
-                {
-                    value = Convert.ChangeType(temp, field.GetMemberType());
-                }
-
-                var property = type.GetProperty(field.Name);
+                object value = GetObject(field);
+                PropertyInfo property = type.GetProperty(field.Name);
                 property.SetValue(deserialized, value, null);
 
             }
@@ -139,6 +158,8 @@ namespace FixedWidth
             return deserialized;
 
         }
+
+        // S E R I A L I Z E
 
         /// <summary>
         /// Creates fixed width text from T object.
@@ -148,49 +169,92 @@ namespace FixedWidth
         public string Serialize(T record)
         {
 
+            currentObject = record;
             StringBuilder serialized = new StringBuilder();
-            object temp = null;
 
             foreach (TextField field in fields.Values)
             {
 
-                string value = null;
-
-                // Get member value
-                if (field.Member is FieldInfo)
-                {
-                    temp = ((FieldInfo)field.Member).GetValue(record);
-                }
-                else if (field.Member is PropertyInfo)
-                {
-                    temp = ((PropertyInfo)field.Member).GetValue(record, null);
-                }
-
-                // Object to string
-                if (field.Formatter != null)
-                {
-                    value = field.Formatter.Serialize(temp);
-                }
-                else
-                {
-                    value = temp.ToString();
-                }
-
-                // Add to string, optionally pad
-                int paddingCount = field.Size - value.Length;
-                if (paddingCount > 0 && field.Alignment == TextAlignment.Right)
-                {
-                    serialized.Append(field.Padding, paddingCount);
-                }
+                string value = GetString(field);
+                value = FormatFieldString(field, value);
                 serialized.Append(value);
-                if (paddingCount > 0 && field.Alignment == TextAlignment.Left)
-                {
-                    serialized.Append(field.Padding, paddingCount);
-                }
 
             }
 
             return serialized.ToString();
+
+        }
+
+        /// <summary>
+        /// Get string from T object
+        /// </summary>
+        /// <param name="field">text field</param>
+        /// <returns>the string</returns>
+        private string GetString(TextField field)
+        {
+
+            object temp = null;
+            string value = string.Empty;
+
+            // Get member value
+            if (field.Member is FieldInfo)
+            {
+                temp = ((FieldInfo)field.Member).GetValue(currentObject);
+            }
+            else if (field.Member is PropertyInfo)
+            {
+                temp = ((PropertyInfo)field.Member).GetValue(currentObject, null);
+            }
+
+            // Object to string
+            if (field.Formatter != null)
+            {
+                value = field.Formatter.Serialize(temp);
+            }
+            else
+            {
+                value = temp.ToString();
+            }
+
+            return value;
+
+        }
+
+        /// <summary>
+        /// Format field string - add padding and alignment
+        /// </summary>
+        /// <param name="field">text field</param>
+        /// <param name="value">text field value</param>
+        /// <returns>the formatted string</returns>
+        private string FormatFieldString(TextField field, string value)
+        {
+
+            // Truncate value if longer than field size
+            if (value.Length > field.Size)
+            {
+                value = value.Substring(0, field.Size);
+            }
+            // Pad value if less than field size
+            else
+            {
+                int paddingCount = field.Size - value.Length;
+                if (paddingCount > 0)
+                {
+                    switch (field.Alignment)
+                    {
+                        case TextAlignment.Left:
+                            value = value + new string(field.Padding, paddingCount);
+                            break;
+                        case TextAlignment.Right:
+                            value = new string(field.Padding, paddingCount) + value;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return value;
 
         }
 

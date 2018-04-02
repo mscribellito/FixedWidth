@@ -71,6 +71,7 @@ namespace FixedWidth
             Position = position;
             Size = size;
             Padding = ' ';
+            Alignment = TextAlignment.Left;
 
         }
 
