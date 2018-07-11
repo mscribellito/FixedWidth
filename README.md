@@ -1,5 +1,14 @@
 # FixedWidth
-.NET library for deserializing and serializing fixed width files.
+FixedWidth is an easy to use .NET library for working with fixed width (flat formatted) text files. By applying attributes to your code, you can setup the position and format for your data when deserializing/serializing to and from fixed width files.
+
+FixedWidth handles the following built-in types:
+* string
+* char
+* int
+* double
+* bool
+
+You can also write and plugin your own formatters for custom data types by implementing the `ITextFormatter` interface.
 
 ## Features
 * Serialize an object into a string and deserialize a string into an object
@@ -7,9 +16,12 @@
 * Supports custom serialization and deserialization via ITextFormatter
 * Specify field padding and text alignment
 
-## Usage
+## Getting Started
+To start using FixedWidth, you only have to apply attributes to your class and members (fields & properties). An example can be found below in the Usage section.
 
-### Define Format
+# Usage
+
+## Define Format
 Add `TextSerializable` attribute to class and `TextField` attribute to each field/property you want to serialize.
 ```csharp
 [TextSerializable]
@@ -30,20 +42,20 @@ public class Account
 }
 ```
 
-### Create Serializer
+## Create Serializer
 Create new `TextSerializer` and use class as generic type.
 ```csharp
 var serializer = new TextSerializer<Account>();
 ```
 
-### Deserialize String
+## Deserialize String
 Pass `Deserialize()` the serialized string.
 ```csharp
 var deserialized = serializer.Deserialize("C0001Acme Corp 12.340");
 ```
 *Object: {Type = "C", Number = "1", Name = "Acme Corp", Balance = "12.34", Locked = "False"}*
 
-### Serialize Object
+## Serialize Object
 Pass `Serialize()` the deserialized object.
 ```csharp
 var serialized = serializer.Serialize(new Account()
