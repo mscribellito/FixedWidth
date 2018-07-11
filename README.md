@@ -13,7 +13,7 @@ You can also write and plugin your own formatters for custom data types by imple
 ## Features
 * Serialize an object into a string and deserialize a string into an object
 * Supports most built-in types
-* Supports custom serialization and deserialization via ITextFormatter
+* Supports custom serialization and deserialization via `ITextFormatter`
 * Specify field padding and text alignment
 
 ## Getting Started
@@ -69,5 +69,33 @@ var serialized = serializer.Serialize(new Account()
 ```
 *String: "C0001Acme Corp 12.340"*
 
-## License
+# Frequently Asked Questions
+
+## Can FixedWidth help me parse large text files?
+
+As of now, no. The API simply maps one line to an object or vice versa. However, you could loop through a large file and use the `TextSerializer` object to deserializing/serializing.
+
+## How do I create a custom formatter?
+By implementing the `ITextFormatter` interface. Example below:
+
+```csharp
+class DateFormatter : ITextFormatter
+{
+
+	private const string Format = "yyyyMMdd";
+
+	public object Deserialize(string value)
+	{
+		return DateTime.ParseExact(value, Format, CultureInfo.InvariantCulture);
+	}
+
+	public string Serialize(object value)
+	{
+		throw new System.NotImplementedException();
+	}
+
+}
+```
+
+# License
 Released under a MIT license - https://opensource.org/licenses/MIT
