@@ -2,11 +2,18 @@
 FixedWidth is an easy to use .NET library for working with fixed width (flat formatted) text files. By applying attributes to your code, you can setup the position and format for your data when deserializing/serializing to and from fixed width files.
 
 FixedWidth handles the following built-in types:
-* string
+* bool (using `BooleanFormatter`)
 * char
-* int
+* decimal
 * double
-* bool
+* float
+* int
+* uint
+* long
+* ulong
+* short
+* ushort
+* string
 
 You can also write and plugin your own formatters for custom data types by implementing the `ITextFormatter` interface.
 
