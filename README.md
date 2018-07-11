@@ -24,9 +24,7 @@ You can also write and plugin your own formatters for custom data types by imple
 * Specify field padding and text alignment
 
 ## Getting Started
-To start using FixedWidth, you only have to apply attributes to your class and members (properties). An example can be found below in the [Usage](#usage) section.
-
-Properties are the only members supported now. Fields are planned.
+To start using FixedWidth, you only have to apply attributes to your class and members (fields & properties). An example can be found below in the [Usage](#usage) section.
 
 ---
 
