@@ -60,6 +60,7 @@
     <Compile Include="CompositeTests.cs" />
     <Compile Include="FormatterTypeTests.cs" />
     <Compile Include="InstantiateTests.cs" />
+    <Compile Include="LengthTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
