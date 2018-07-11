@@ -19,6 +19,8 @@ You can also write and plugin your own formatters for custom data types by imple
 ## Getting Started
 To start using FixedWidth, you only have to apply attributes to your class and members (fields & properties). An example can be found below in the Usage section.
 
+---
+
 # Usage
 
 ## Define Format
@@ -69,6 +71,8 @@ var serialized = serializer.Serialize(new Account()
 ```
 *String: "C0001Acme Corp 12.340"*
 
+---
+
 # Frequently Asked Questions
 
 ## Can FixedWidth help me parse large text files?
@@ -96,6 +100,8 @@ class DateFormatter : ITextFormatter
 
 }
 ```
+
+---
 
 # License
 Released under a MIT license - https://opensource.org/licenses/MIT
