@@ -106,6 +106,8 @@ namespace FixedWidth
             {
 
                 object value = GetObject(field);
+
+                // Set member value
                 if (field.Member is FieldInfo)
                 {
                     ((FieldInfo)field.Member).SetValue(deserialized, value);
