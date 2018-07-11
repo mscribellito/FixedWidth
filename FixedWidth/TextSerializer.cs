@@ -92,6 +92,36 @@ namespace FixedWidth
         // D E S E R I A L I Z E
 
         /// <summary>
+        /// Creates T object from fixed width text.
+        /// </summary>
+        /// <param name="text">string to deserialize</param>
+        /// <returns>deserialized object</returns>
+        public T Deserialize(string text)
+        {
+
+            currentString = text;
+            T deserialized = new T();
+
+            foreach (TextField field in fields.Values)
+            {
+
+                object value = GetObject(field);
+                if (field.Member is FieldInfo)
+                {
+                    ((FieldInfo)field.Member).SetValue(deserialized, value);
+                }
+                else if (field.Member is PropertyInfo)
+                {
+                    ((PropertyInfo)field.Member).SetValue(deserialized, value, null);
+                }
+
+            }
+
+            return deserialized;
+
+        }
+
+        /// <summary>
         /// Get T object from string
         /// </summary>
         /// <param name="field">text field</param>
@@ -132,30 +162,6 @@ namespace FixedWidth
             }
 
             return value;
-
-        }
-
-        /// <summary>
-        /// Creates T object from fixed width text.
-        /// </summary>
-        /// <param name="text">string to deserialize</param>
-        /// <returns>deserialized object</returns>
-        public T Deserialize(string text)
-        {
-
-            currentString = text;
-            T deserialized = new T();
-
-            foreach (TextField field in fields.Values)
-            {
-
-                object value = GetObject(field);
-                PropertyInfo property = type.GetProperty(field.Name);
-                property.SetValue(deserialized, value, null);
-
-            }
-
-            return deserialized;
 
         }
 
