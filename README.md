@@ -1,4 +1,7 @@
 # FixedWidth
+
+[![Build status](https://ci.appveyor.com/api/projects/status/00s0wpj80kb30bnt?svg=true)](https://ci.appveyor.com/project/mscribellito/fixedwidth)
+
 FixedWidth is an easy to use .NET library for working with fixed width (flat formatted) text files. By applying attributes to your code, you can setup the position and format for your data when deserializing/serializing to and from fixed width files.
 
 FixedWidth handles the following built-in types:
