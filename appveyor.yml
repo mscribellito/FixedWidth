@@ -1,8 +1,13 @@
 version: 1.0.{build}
-image: Visual Studio 2017
 branches:
   only:
   - master
+image: Visual Studio 2017
 configuration: Release
+before_build:
+- cmd: >-
+    dotnet --version
+
+    dotnet restore
 build:
   verbosity: minimal
