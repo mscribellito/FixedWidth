@@ -9,7 +9,8 @@ namespace Mscribel.FixedWidth
     /// The text field attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-        AllowMultiple = false)]
+        AllowMultiple = false,
+        Inherited = true)]
     public class TextField : Attribute
     {
 
