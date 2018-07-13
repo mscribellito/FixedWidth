@@ -27,13 +27,16 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void InstantiateWithInheritance2_Success()
+        public void InheritanceSerialization_Success()
         {
 
             var serializer = new TextSerializer<DerivedClass>();
+            string str = "a";
 
-            var d = serializer.Deserialize("a");
+            var d = serializer.Deserialize(str);
             Assert.AreEqual('a', d.Value);
+            var s = serializer.Serialize(d);
+            Assert.AreEqual(str, s);
 
         }
 
