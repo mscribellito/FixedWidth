@@ -1,6 +1,6 @@
 using System;
 
-namespace FixedWidth
+namespace Mscribel.FixedWidth
 {
 
     /// <summary>

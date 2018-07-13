@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace FixedWidth.Tests
+namespace Mscribel.FixedWidth.Tests
 {
 
     [TestClass()]

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FixedWidth.Formatters
+namespace Mscribel.FixedWidth.Formatters
 {
 
     public class BooleanFormatter : ITextFormatter

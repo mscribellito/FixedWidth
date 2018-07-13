@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
+    <PackageProjectUrl>https://github.com/mscribellito/FixedWidth</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Michael Scribellito</Authors>
+    <Company>n/a</Company>
+    <Description>.NET library for deserializing and serializing fixed width files</Description>
+    <PackageTags>fixedwidth text serialization string object</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
 </Project>

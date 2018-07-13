@@ -1,4 +1,4 @@
-namespace FixedWidth
+namespace Mscribel.FixedWidth
 {
 
     /// <summary>

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace FixedWidth
+namespace Mscribel.FixedWidth
 {
 
     /// <summary>
