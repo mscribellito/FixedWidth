@@ -47,7 +47,7 @@ namespace Mscribel.FixedWidth
         private void CheckForAttribute()
         {
 
-            if (type.GetCustomAttribute(typeof(TextSerializable), false) == null)
+            if (type.GetCustomAttribute(typeof(TextSerializable), true) == null)
             {
                 throw new Exception(string.Format("{0} must have a {1} attribute",
                     type, typeof(TextSerializable)));
