@@ -17,13 +17,18 @@ namespace Mscribel.FixedWidth
 
         private readonly SortedDictionary<int, TextField> fields;
 
-        private string currentString;
-        private T currentObject;
-
+        private bool zeroBased = false;
         /// <summary>
         /// Specifies if field positions are zero based or not.
         /// </summary>
-        public bool ZeroIndexed { get; set; }
+        public bool ZeroBased
+        {
+            get { return zeroBased;}
+            set { zeroBased = value;}
+        }
+
+        private string currentString;
+        private T currentObject;
 
         /// <summary>
         /// Instantiates a new TextSerializer.
@@ -33,8 +38,6 @@ namespace Mscribel.FixedWidth
 
             type = typeof(T);
             fields = new SortedDictionary<int, TextField>();
-
-            ZeroIndexed = false;
 
             CheckForAttribute();
             AnalyzeMembers();
@@ -47,11 +50,15 @@ namespace Mscribel.FixedWidth
         private void CheckForAttribute()
         {
 
-            if (type.GetCustomAttribute(typeof(TextSerializable), true) == null)
+            TextSerializable attribute = (TextSerializable)type.GetCustomAttribute(typeof(TextSerializable), true);
+
+            if (attribute == null)
             {
                 throw new Exception(string.Format("{0} must have a {1} attribute",
                     type, typeof(TextSerializable)));
             }
+
+            ZeroBased = attribute.ZeroBased;
 
         }
 
@@ -135,7 +142,7 @@ namespace Mscribel.FixedWidth
             object value = null;
 
             // Get field text
-            int position = ZeroIndexed == true ? field.Position : field.Position - 1;
+            int position = ZeroBased == true ? field.Position : field.Position - 1;
             try
             {
                 temp = currentString.Substring(position, field.Size).Trim(field.Padding);

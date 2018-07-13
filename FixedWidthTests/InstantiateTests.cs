@@ -17,6 +17,16 @@ namespace Mscribel.FixedWidth.Tests
         {
         }
 
+        [TextSerializable(ZeroBased = true)]
+        public class ZeroBased
+        {
+        }
+
+        [TextSerializable]
+        public class NonZeroBased
+        {
+        }
+
         [TestMethod()]
         public void InstantiateWithClass_Success()
         {
@@ -28,6 +38,20 @@ namespace Mscribel.FixedWidth.Tests
         public void InstantiateWithClass_Failure()
         {
             var serializer = new TextSerializer<ClassFailure>();
+        }
+
+        [TestMethod()]
+        public void InstantiateZeroBased_Success()
+        {
+            var serializer = new TextSerializer<ZeroBased>();
+            Assert.IsTrue(serializer.ZeroBased);
+        }
+
+        [TestMethod()]
+        public void InstantiateNonZeroBased_Success()
+        {
+            var serializer = new TextSerializer<NonZeroBased>();
+            Assert.IsFalse(serializer.ZeroBased);
         }
 
     }
