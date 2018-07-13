@@ -57,6 +57,16 @@ public class Account
 }
 ```
 
+### `TextField` Options
+
+Name | Type | Description | Default
+--- | --- | --- | ---
+Position | `int` | Position of text field. | -
+Size | `int` | Size of text field. | -
+Padding | `char` | Character used to pad text field. | `' '`
+Alignment | `TextAlignment` | Text alignment of field. | `TextAlignment.Left`
+FormatterType | `Type` | Type to be utilized for deserialze/serialize. | -
+
 ## Create Serializer
 Create new `TextSerializer` and use class as generic type.
 ```csharp
