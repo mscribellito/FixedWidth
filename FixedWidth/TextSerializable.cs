@@ -7,7 +7,8 @@ namespace Mscribel.FixedWidth
     /// The text serializable attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class,
-        AllowMultiple = false)]
+        AllowMultiple = false,
+        Inherited = true)]
     public class TextSerializable : Attribute
     {
     }
