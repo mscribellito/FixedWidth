@@ -9,6 +9,7 @@
     <Description>.NET library for deserializing and serializing fixed width files</Description>
     <PackageTags>fixedwidth text serialization string object</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>Mscribel.FixedWidth</PackageId>
   </PropertyGroup>
 
 </Project>

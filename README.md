@@ -106,7 +106,7 @@ class DateFormatter : ITextFormatter
 
 	public string Serialize(object value)
 	{
-		throw new System.NotImplementedException();
+		return ((DateTime)value).ToString(Format);
 	}
 
 }
