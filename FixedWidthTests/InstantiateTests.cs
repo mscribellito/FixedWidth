@@ -20,11 +20,15 @@ namespace Mscribel.FixedWidth.Tests
         [TextSerializable(ZeroBased = true)]
         public class ZeroBased
         {
+            [TextField(0, 1)]
+            public char Value { get; set; }
         }
 
         [TextSerializable]
         public class NonZeroBased
         {
+            [TextField(1, 1)]
+            public char Value { get; set; }
         }
 
         [TestMethod()]
@@ -43,15 +47,27 @@ namespace Mscribel.FixedWidth.Tests
         [TestMethod()]
         public void InstantiateZeroBased_Success()
         {
+
             var serializer = new TextSerializer<ZeroBased>();
             Assert.IsTrue(serializer.ZeroBased);
+
+            string str = "a";
+            var deserialized = serializer.Deserialize(str);
+            Assert.AreEqual('a', deserialized.Value);
+
         }
 
         [TestMethod()]
         public void InstantiateNonZeroBased_Success()
         {
+
             var serializer = new TextSerializer<NonZeroBased>();
             Assert.IsFalse(serializer.ZeroBased);
+
+            string str = "a";
+            var deserialized = serializer.Deserialize(str);
+            Assert.AreEqual('a', deserialized.Value);
+
         }
 
     }
