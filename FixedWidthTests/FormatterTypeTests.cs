@@ -11,8 +11,7 @@ namespace Mscribel.FixedWidth.Tests
         [TextSerializable]
         public class SimpleDateTime
         {
-            [TextField(1, 20,
-                Alignment = TextAlignment.Right,
+            [TextField(1, 17,
                 FormatterType = typeof(DateTimeFormatter))]
             public DateTime Value { get; set; }
         }
@@ -45,7 +44,7 @@ namespace Mscribel.FixedWidth.Tests
         public void DateTimeTest()
         {
 
-            string original = "   20141017 18:30:00";
+            string original = "20141017 18:30:00";
 
             var serializer = new TextSerializer<SimpleDateTime>();
             var deserialized = serializer.Deserialize(original);
