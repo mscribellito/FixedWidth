@@ -39,7 +39,7 @@ namespace Mscribel.FixedWidth
         /// </summary>
         public TextAlignment Alignment { get; set; }
 
-        private Type formatterType;
+        private Type _formatterType;
 
         /// <summary>
         /// Type to be utilized for deserialze/serialize.
@@ -48,12 +48,12 @@ namespace Mscribel.FixedWidth
         {
             get
             {
-                return formatterType;
+                return _formatterType;
             }
             set
             {
-                formatterType = value;
-                Formatter = (ITextFormatter)formatterType.Assembly.CreateInstance(formatterType.FullName);
+                _formatterType = value;
+                Formatter = (ITextFormatter)_formatterType.Assembly.CreateInstance(_formatterType.FullName);
             }
         }
 

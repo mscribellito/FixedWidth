@@ -13,22 +13,19 @@ namespace Mscribel.FixedWidth
     public class TextSerializer<T> where T : new()
     {
 
-        private readonly Type type;
+        private readonly Type _type;
 
-        private readonly SortedDictionary<int, TextField> fields;
+        private readonly SortedDictionary<int, TextField> _fields;
 
-        private bool zeroBased = false;
+        private bool _zeroBased;
+
         /// <summary>
         /// Specifies if field positions are zero based or not.
         /// </summary>
-        public bool ZeroBased
-        {
-            get { return zeroBased;}
-            set { zeroBased = value;}
-        }
+        public bool ZeroBased { get => _zeroBased; set => _zeroBased = value; }
 
-        private string currentString;
-        private T currentObject;
+        private string _currentString;
+        private T _currentObject;
 
         /// <summary>
         /// Instantiates a new TextSerializer.
@@ -36,8 +33,8 @@ namespace Mscribel.FixedWidth
         public TextSerializer()
         {
 
-            type = typeof(T);
-            fields = new SortedDictionary<int, TextField>();
+            _type = typeof(T);
+            _fields = new SortedDictionary<int, TextField>();
 
             CheckForAttribute();
             AnalyzeMembers();
@@ -50,12 +47,12 @@ namespace Mscribel.FixedWidth
         private void CheckForAttribute()
         {
 
-            TextSerializable attribute = (TextSerializable)type.GetCustomAttribute(typeof(TextSerializable), true);
+            TextSerializable attribute = (TextSerializable)_type.GetCustomAttribute(typeof(TextSerializable), true);
 
             if (attribute == null)
             {
                 throw new Exception(string.Format("{0} must have a {1} attribute",
-                    type, typeof(TextSerializable)));
+                    _type, typeof(TextSerializable)));
             }
 
             ZeroBased = attribute.ZeroBased;
@@ -69,7 +66,7 @@ namespace Mscribel.FixedWidth
         {
 
             // Get public fields and properties of T
-            MemberInfo[] members = type.GetMembers(BindingFlags.Instance | BindingFlags.Public |
+            MemberInfo[] members = _type.GetMembers(BindingFlags.Instance | BindingFlags.Public |
                 BindingFlags.GetField | BindingFlags.GetProperty);
             foreach (MemberInfo member in members)
             {
@@ -90,12 +87,12 @@ namespace Mscribel.FixedWidth
                 }
 
                 field.Member = member;
-                fields.Add(field.Position, field);
+                _fields.Add(field.Position, field);
 
             }
 
         }
-        
+
         // D E S E R I A L I Z E
 
         /// <summary>
@@ -106,10 +103,10 @@ namespace Mscribel.FixedWidth
         public T Deserialize(string text)
         {
 
-            currentString = text;
+            _currentString = text;
             T deserialized = new T();
 
-            foreach (TextField field in fields.Values)
+            foreach (TextField field in _fields.Values)
             {
 
                 object value = GetObject(field);
@@ -145,7 +142,7 @@ namespace Mscribel.FixedWidth
             int position = ZeroBased == true ? field.Position : field.Position - 1;
             try
             {
-                temp = currentString.Substring(position, field.Size).Trim(field.Padding);
+                temp = _currentString.Substring(position, field.Size).Trim(field.Padding);
             }
             catch (ArgumentOutOfRangeException e)
             {
@@ -184,10 +181,10 @@ namespace Mscribel.FixedWidth
         public string Serialize(T record)
         {
 
-            currentObject = record;
+            _currentObject = record;
             StringBuilder serialized = new StringBuilder();
 
-            foreach (TextField field in fields.Values)
+            foreach (TextField field in _fields.Values)
             {
 
                 string value = GetString(field);
@@ -214,11 +211,11 @@ namespace Mscribel.FixedWidth
             // Get member value
             if (field.Member is FieldInfo)
             {
-                temp = ((FieldInfo)field.Member).GetValue(currentObject);
+                temp = ((FieldInfo)field.Member).GetValue(_currentObject);
             }
             else if (field.Member is PropertyInfo)
             {
-                temp = ((PropertyInfo)field.Member).GetValue(currentObject, null);
+                temp = ((PropertyInfo)field.Member).GetValue(_currentObject, null);
             }
 
             // Object to string
