@@ -101,7 +101,7 @@ var serialized = serializer.Serialize(new Account()
 
 ## Can FixedWidth help me parse large text files?
 
-As of now, no. The API simply maps one line to an object or vice versa. However, you could loop through a large file and use the `TextSerializer` object to deserializing/serializing.
+As of now, no. The API simply maps one line to an object or vice versa. However, you could loop through a large file and use the `TextSerializer` object to deserialize/serialize.
 
 ## How do I create a custom formatter?
 By implementing the `ITextFormatter` interface. Example below:
