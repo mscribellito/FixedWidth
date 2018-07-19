@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedWidth", "FixedWidth\FixedWidth.csproj", "{63C31E88-AB6E-4818-A7FA-E280B6FD5579}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedWidthTests", "FixedWidthTests\FixedWidthTests.csproj", "{65C3616E-78DF-47D8-99AE-6414179EFE7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedWidthTests", "FixedWidth.Tests\FixedWidth.Tests.csproj", "{65C3616E-78DF-47D8-99AE-6414179EFE7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
