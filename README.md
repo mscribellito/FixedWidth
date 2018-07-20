@@ -30,32 +30,33 @@ Available on [Wiki](https://github.com/mscribellito/FixedWidth/wiki).
 
 ```csharp
 [TextSerializable]
-public class Account
+public class Dog
 {
-	[TextField(1, 1)]
-	public char Type { get; set; }
-	[TextField(2, 4, '0',
-		Alignment = TextAlignment.Right)]
-	public int Number { get; set; }
-	[TextField(6, 10)]
-	public string Name { get; set; }
-	[TextField(16, 5)]
-	public double Balance { get; set; }
-	[TextField(21, 1,
-		FormatterType = typeof(BooleanFormatter))]
-	public bool Locked { get; set; }
+
+    [TextField(1, 10)]
+    public string Name { get; set; }
+
+    [TextField(11, 1)]
+    public char Sex { get; set; }
+
+    [TextField(12, 3,
+        Padding = '0',
+        Alignment = TextAlignment.Right)]
+    public int Weight { get; set; }
+
+    [TextField(15, 8,
+        FormatterType = typeof(DateFormatter))]
+    public DateTime BirthDate { get; set; }
+
+    [TextField(23, 1,
+        FormatterType = typeof(BooleanFormatter))]
+    public bool SpayedNeutered { get; set; }
+
 }
 
-var serializer = new TextSerializer<Account>();
+var serializer = new TextSerializer<Dog>();
 
-var deserialized = serializer.Deserialize("C0001Acme Corp 12.340");
+var deserialized = serializer.Deserialize("Wally     M065201011161");
 
-var serialized = serializer.Serialize(new Account()
-{
-	Type = 'C',
-	Number = 1,
-	Name = "Acme Corp",
-	Balance = 12.34,
-	Locked = false
-});
+var serialized = serializer.Serialize(deserialized);
 ```
