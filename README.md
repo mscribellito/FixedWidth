@@ -28,6 +28,10 @@ Available on [Wiki](https://github.com/mscribellito/FixedWidth/wiki).
 * Specify field padding and text alignment
 * Handles zero and one based indexes
 
+## Example
+
+### Apply attributes to class members
+
 ```csharp
 [TextSerializable]
 public class Dog
@@ -53,10 +57,34 @@ public class Dog
     public bool SpayedNeutered { get; set; }
 
 }
+```
 
+### Create `TextSerializer` instance
+
+```csharp
 var serializer = new TextSerializer<Dog>();
+```
 
+### Deserialize string into object
+
+```csharp
 var deserialized = serializer.Deserialize("Wally     M065201011161");
+```
 
+```
+BirthDate [DateTime]:{11/16/2010 12:00:00 AM}
+Name [string]:"Wally"
+Sex [char]:77 'M'
+SpayedNeutered [bool]:true
+Weight [int]:65
+```
+
+### Serialize object into string
+
+```csharp
 var serialized = serializer.Serialize(deserialized);
+```
+
+```
+"Wally     M065201011161"
 ```
