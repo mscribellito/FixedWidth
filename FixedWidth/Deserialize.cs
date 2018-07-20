@@ -57,7 +57,7 @@ namespace Mscribel.FixedWidth
             }
             catch (ArgumentOutOfRangeException e)
             {
-                throw new Exception(string.Format("Position={0}, Size={1}", position, field.Size), e);
+                throw new Exception(e.Message, e);
             }
 
             // String to object
@@ -69,8 +69,7 @@ namespace Mscribel.FixedWidth
                 }
                 catch (Exception e)
                 {
-                    throw new Exception(string.Format("Field: Name={0}, Position={1}, Size={2}",
-                        field.Name, field.Position, field.Size), e);
+                    throw new Exception("Error occurred while deserializing " + field.Name, e);
                 }
             }
             else

@@ -62,7 +62,14 @@ namespace Mscribel.FixedWidth
             // Object to string
             if (field.Formatter != null)
             {
-                value = field.Formatter.Serialize(temp);
+                try
+                {
+                    value = field.Formatter.Serialize(temp);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Error occurred while serializing " + field.Name, e);
+                }
             }
             else
             {
