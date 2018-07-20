@@ -12,28 +12,25 @@ namespace Mscribel.FixedWidth
         /// <summary>
         /// Creates T object from fixed width text.
         /// </summary>
-        /// <param name="text">string to deserialize</param>
+        /// <param name="str">string to deserialize</param>
         /// <returns>deserialized object</returns>
-        public T Deserialize(string text)
+        public T Deserialize(string str)
         {
 
-            _currentString = text;
+            if (str == null)
+            {
+                throw new ArgumentNullException("str", "cannot be null");
+            }
+
+            _currentString = str;
             T deserialized = new T();
 
+            // Iterate over fields and set member in T object
             foreach (TextField field in _fields.Values)
             {
 
                 object value = GetObject(field);
-
-                // Set member value
-                if (field.Member is FieldInfo)
-                {
-                    ((FieldInfo)field.Member).SetValue(deserialized, value);
-                }
-                else if (field.Member is PropertyInfo)
-                {
-                    ((PropertyInfo)field.Member).SetValue(deserialized, value, null);
-                }
+                AssignValue(field, deserialized, value);
 
             }
 
@@ -82,6 +79,27 @@ namespace Mscribel.FixedWidth
             }
 
             return value;
+
+        }
+
+        /// <summary>
+        /// Assign value to object
+        /// </summary>
+        /// <param name="field">text field</param>
+        /// <param name="deserialized">deserialized object</param>
+        /// <param name="value">text field value</param>
+        private void AssignValue(TextField field, T deserialized, object value)
+        {
+
+            // Set member value
+            if (field.Member is FieldInfo)
+            {
+                ((FieldInfo)field.Member).SetValue(deserialized, value);
+            }
+            else if (field.Member is PropertyInfo)
+            {
+                ((PropertyInfo)field.Member).SetValue(deserialized, value, null);
+            }
 
         }
 

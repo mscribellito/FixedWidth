@@ -12,20 +12,25 @@ namespace Mscribel.FixedWidth
         /// <summary>
         /// Creates fixed width text from T object.
         /// </summary>
-        /// <param name="record">object to serialize</param>
+        /// <param name="obj">object to serialize</param>
         /// <returns>serialized string</returns>
-        public string Serialize(T record)
+        public string Serialize(T obj)
         {
 
-            _currentObject = record;
+            if (obj == null)
+            {
+                throw new ArgumentNullException("obj", "cannot be null");
+            }
+
+            _currentObject = obj;
             StringBuilder serialized = new StringBuilder();
 
+            // Iterate over fields and get string representation
             foreach (TextField field in _fields.Values)
             {
 
                 string value = GetString(field);
-                value = FormatFieldString(field, value);
-                serialized.Append(value);
+                serialized.Append(ApplyFormatting(field, value));
 
             }
 
@@ -69,12 +74,12 @@ namespace Mscribel.FixedWidth
         }
 
         /// <summary>
-        /// Format field string - add padding and alignment
+        /// Apply formatting to string
         /// </summary>
         /// <param name="field">text field</param>
         /// <param name="value">text field value</param>
         /// <returns>the formatted string</returns>
-        private string FormatFieldString(TextField field, string value)
+        private string ApplyFormatting(TextField field, string value)
         {
 
             // Truncate value if longer than field size
@@ -82,7 +87,7 @@ namespace Mscribel.FixedWidth
             {
                 value = value.Substring(0, field.Size);
             }
-            // Pad value if less than field size
+            // Pad and align value if less than field size
             else
             {
                 int paddingCount = field.Size - value.Length;
@@ -90,13 +95,12 @@ namespace Mscribel.FixedWidth
                 {
                     switch (field.Alignment)
                     {
+                        default:
                         case TextAlignment.Left:
                             value = value + new string(field.Padding, paddingCount);
                             break;
                         case TextAlignment.Right:
                             value = new string(field.Padding, paddingCount) + value;
-                            break;
-                        default:
                             break;
                     }
                 }
