@@ -10,6 +10,7 @@
     <PackageTags>fixedwidth text serialization string object deserialize serialize</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Mscribel.FixedWidth</PackageId>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
 </Project>
