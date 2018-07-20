@@ -22,12 +22,20 @@ namespace Mscribel.FixedWidth
         /// <summary>
         /// Position of text field.
         /// </summary>
-        public int Position { get; set; }
+        private readonly int _position;
+        public int Position
+        {
+            get { return _position; }
+        }
 
         /// <summary>
         /// Size of text field.
         /// </summary>
-        public int Size { get; set; }
+        private readonly int _size;
+        public int Size
+        {
+            get { return _size; }
+        }
 
         /// <summary>
         /// Character used to pad text field.
@@ -69,8 +77,18 @@ namespace Mscribel.FixedWidth
         public TextField(int position, int size)
         {
 
-            Position = position;
-            Size = size;
+            if (position < 0)
+            {
+                throw new ArgumentOutOfRangeException("position", "cannot be negative");
+            }
+
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("size", "cannot be negative");
+            }
+
+            _position = position;
+            _size = size;
             Padding = ' ';
             Alignment = TextAlignment.Left;
 
