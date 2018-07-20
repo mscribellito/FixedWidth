@@ -7,7 +7,7 @@
     <Authors>Michael Scribellito</Authors>
     <Company>n/a</Company>
     <Description>.NET library for deserializing and serializing fixed width files</Description>
-    <PackageTags>fixedwidth text serialization string object</PackageTags>
+    <PackageTags>fixedwidth text serialization string object deserialize serialize</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Mscribel.FixedWidth</PackageId>
   </PropertyGroup>
