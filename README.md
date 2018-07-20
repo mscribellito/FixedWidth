@@ -9,6 +9,9 @@ Released under a MIT license - https://opensource.org/licenses/MIT
 
 FixedWidth is an easy to use .NET library for working with fixed width (flat formatted) text files. By applying attributes to your code, you can setup the position and format for your data when deserializing/serializing to and from fixed width files.
 
+## Documentation
+Available on [Wiki](https://github.com/mscribellito/FixedWidth/wiki).
+
 ## Features
 * Serialize an object into a string and deserialize a string into an object
 * Supports most built-in types
