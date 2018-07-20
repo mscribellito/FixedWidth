@@ -12,7 +12,7 @@ namespace Mscribel.FixedWidth
     public class TextSerializable : Attribute
     {
         
-        private bool _zeroBased;
+        private bool _zeroBased = false;
 
         /// <summary>
         /// Specifies if field positions are zero based or not.
