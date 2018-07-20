@@ -4,7 +4,7 @@ namespace Mscribel.FixedWidth
 {
 
     /// <summary>
-    /// The text serializable attribute.
+    /// The text serializable attribute. Indicates that a class is serializable.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class,
         AllowMultiple = false,

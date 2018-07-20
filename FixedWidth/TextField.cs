@@ -6,7 +6,7 @@ namespace Mscribel.FixedWidth
 {
 
     /// <summary>
-    /// The text field attribute.
+    /// The text field attribute. Indicates that a field or property is serializable.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
         AllowMultiple = false,
