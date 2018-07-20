@@ -12,6 +12,15 @@ FixedWidth is an easy to use .NET library for working with fixed width (flat for
 ## Features
 * Serialize an object into a string and deserialize a string into an object
 * Supports most built-in types
+	* bool (using `BooleanFormatter`)
+	* char
+	* decimal
+	* double
+	* float
+	* int/uint
+	* long/ulong
+	* short/ushort
+	* string
 * Supports custom serialization and deserialization via `ITextFormatter`
 * Specify field padding and text alignment
 * Handles zero and one based indexes
