@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mscribel.FixedWidth.Formatters;
+using Mscribel.FixedWidth.Tests.Models;
 
 namespace Mscribel.FixedWidth.Tests
 {
@@ -8,97 +9,13 @@ namespace Mscribel.FixedWidth.Tests
     public class BuiltInTypeTests
     {
 
-        [TextSerializable]
-        public class BoolClass
-        {
-            [TextField(1, 1, FormatterType = typeof(BooleanFormatter))]
-            public bool Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class CharClass
-        {
-            [TextField(1, 1)]
-            public char Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class DecimalClass
-        {
-            [TextField(1, 10)]
-            public decimal Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class DoubleClass
-        {
-            [TextField(1, 10)]
-            public double Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class FloatClass
-        {
-            [TextField(1, 10)]
-            public float Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class IntClass
-        {
-            [TextField(1, 10)]
-            public int Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class UintClass
-        {
-            [TextField(1, 10)]
-            public uint Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class LongClass
-        {
-            [TextField(1, 10)]
-            public long Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class UlongClass
-        {
-            [TextField(1, 10)]
-            public ulong Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class ShortClass
-        {
-            [TextField(1, 10)]
-            public short Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class UshortClass
-        {
-            [TextField(1, 10)]
-            public ushort Value { get; set; }
-        }
-
-        [TextSerializable]
-        public class StringClass
-        {
-            [TextField(1, 10)]
-            public string Value { get; set; }
-        }
-
         [TestMethod()]
-        public void BoolClass_Success()
+        public void Bool_Success()
         {
 
             string str = "1";
 
-            var serializer = new TextSerializer<BoolClass>();
+            var serializer = new TextSerializer<SimpleBool>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(true, deserialized.Value);
@@ -107,12 +24,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void CharClass_Success()
+        public void Char_Success()
         {
 
             string str = "a";
 
-            var serializer = new TextSerializer<CharClass>();
+            var serializer = new TextSerializer<SimpleChar>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual('a', deserialized.Value);
@@ -121,12 +38,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void DecimalClass_Success()
+        public void Decimal_Success()
         {
 
             string str = "12.3      ";
 
-            var serializer = new TextSerializer<DecimalClass>();
+            var serializer = new TextSerializer<SimpleDecimal>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(12.3m, deserialized.Value);
@@ -135,12 +52,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void DoubleClass_Success()
+        public void Double_Success()
         {
 
             string str = "12.3      ";
 
-            var serializer = new TextSerializer<DoubleClass>();
+            var serializer = new TextSerializer<SimpleDouble>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(12.3, deserialized.Value);
@@ -149,12 +66,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void FloatClass_Success()
+        public void Float_Success()
         {
 
             string str = "12.3      ";
 
-            var serializer = new TextSerializer<FloatClass>();
+            var serializer = new TextSerializer<SimpleFloat>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(12.3, deserialized.Value, 0.001);
@@ -163,12 +80,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void IntClass_Success()
+        public void Int_Success()
         {
 
             string str = "1234      ";
 
-            var serializer = new TextSerializer<IntClass>();
+            var serializer = new TextSerializer<SimpleInt>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual(1234, deserialized.Value);
@@ -177,12 +94,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void UintClass_Success()
+        public void Uint_Success()
         {
 
             string str = "1234      ";
 
-            var serializer = new TextSerializer<UintClass>();
+            var serializer = new TextSerializer<SimpleUint>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual((uint)1234, deserialized.Value);
@@ -191,12 +108,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void LongClass_Success()
+        public void Long_Success()
         {
 
             string str = "1234      ";
 
-            var serializer = new TextSerializer<LongClass>();
+            var serializer = new TextSerializer<SimpleLong>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual((long)1234, deserialized.Value);
@@ -205,12 +122,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void UlongClass_Success()
+        public void Ulong_Success()
         {
 
             string str = "1234      ";
 
-            var serializer = new TextSerializer<UlongClass>();
+            var serializer = new TextSerializer<SimpleUlong>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual((ulong)1234, deserialized.Value);
@@ -219,12 +136,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void ShortClass_Success()
+        public void Short_Success()
         {
 
             string str = "1234      ";
 
-            var serializer = new TextSerializer<ShortClass>();
+            var serializer = new TextSerializer<SimpleShort>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual((short)1234, deserialized.Value);
@@ -233,12 +150,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void UshortClass_Success()
+        public void Ushort_Success()
         {
 
             string str = "1234      ";
 
-            var serializer = new TextSerializer<UshortClass>();
+            var serializer = new TextSerializer<SimpleUshort>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual((ushort)1234, deserialized.Value);
@@ -247,12 +164,12 @@ namespace Mscribel.FixedWidth.Tests
         }
 
         [TestMethod()]
-        public void StringClass_Success()
+        public void String_Success()
         {
 
             string str = "asdf      ";
 
-            var serializer = new TextSerializer<StringClass>();
+            var serializer = new TextSerializer<SimpleString>();
             var deserialized = serializer.Deserialize(str);
 
             Assert.AreEqual("asdf", deserialized.Value);
