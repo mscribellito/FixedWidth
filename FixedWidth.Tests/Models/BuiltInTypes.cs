@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mscribel.FixedWidth.Formatters;
+﻿using Mscribel.FixedWidth.Formatters;
 
 namespace Mscribel.FixedWidth.Tests.Models
 {

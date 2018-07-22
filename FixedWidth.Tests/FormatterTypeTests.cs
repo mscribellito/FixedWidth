@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Mscribel.FixedWidth.Tests.Formatters;
 
 namespace Mscribel.FixedWidth.Tests
 {
@@ -14,30 +15,6 @@ namespace Mscribel.FixedWidth.Tests
             [TextField(1, 17,
                 FormatterType = typeof(DateTimeFormatter))]
             public DateTime Value { get; set; }
-        }
-
-        public class DateTimeFormatter : ITextFormatter
-        {
-
-            public const string Format = "yyyyMMdd HH:mm:ss";
-
-            public object Deserialize(string value)
-            {
-                try
-                {
-                    return DateTime.ParseExact(value, Format, null);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-
-            public string Serialize(object value)
-            {
-                return ((DateTime)value).ToString(Format);
-            }
-
         }
 
         [TestMethod()]

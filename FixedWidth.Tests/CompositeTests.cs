@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mscribel.FixedWidth.Formatters;
+using System;
+using Mscribel.FixedWidth.Tests.Formatters;
+using Mscribel.FixedWidth.Tests.Models;
 
 namespace Mscribel.FixedWidth.Tests
 {
@@ -8,40 +10,21 @@ namespace Mscribel.FixedWidth.Tests
     public class CompositeTests
     {
 
-        [TextSerializable]
-        public class CompositeClass
-        {
-            [TextField(1, 1)]
-            public char Type { get; set; }
-            [TextField(2, 15)]
-            public string Name { get; set; }
-            [TextField(17, 2,
-                Padding = '0',
-                Alignment = TextAlignment.Right)]
-            public int Status { get; set; }
-            [TextField(19, 7)]
-            public double Amount { get; set; }
-            [TextField(26, 1,
-                FormatterType = typeof(BooleanFormatter))]
-            public bool Closed { get; set; }
-        }
-
         [TestMethod()]
         public void Composite_Success()
         {
 
-            string str = "SAcme Company   011234.560";
+            string str = "C0000583420141102 16:31:420023267.47";
 
-            var serializer = new TextSerializer<CompositeClass>();
-            var deserialized = serializer.Deserialize(str);
+            var serializer = new TextSerializer<Account>();
+            var account = serializer.Deserialize(str);
 
-            Assert.AreEqual('S', deserialized.Type);
-            Assert.AreEqual("Acme Company", deserialized.Name);
-            Assert.AreEqual(1, deserialized.Status);
-            Assert.AreEqual(1234.56, deserialized.Amount);
-            Assert.AreEqual(false, deserialized.Closed);
+            Assert.AreEqual('C', account.Type);
+            Assert.AreEqual("5834", account.Number);
+            Assert.AreEqual(new DateTime(2014, 11, 2, 16, 31, 42), account.Opened);
+            Assert.AreEqual(23267.47m, account.Amount);
 
-            Assert.AreEqual(str, serializer.Serialize(deserialized));
+            Assert.AreEqual(str, serializer.Serialize(account));
 
         }
 
