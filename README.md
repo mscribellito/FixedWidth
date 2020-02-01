@@ -1,4 +1,4 @@
-# FixedWidth
+# FixedWidth 
 
 [![Build status](https://ci.appveyor.com/api/projects/status/00s0wpj80kb30bnt?svg=true)](https://ci.appveyor.com/project/mscribellito/fixedwidth)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
